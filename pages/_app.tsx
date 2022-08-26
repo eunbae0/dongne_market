@@ -1,8 +1,18 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+/* eslint-disable react/jsx-props-no-spreading */
+import type { AppProps } from 'next/app';
+import { RecoilRoot } from 'recoil';
+
+import Layout from '../components/layout/layout';
+
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <RecoilRoot>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </RecoilRoot>
+  );
 }
-
-export default MyApp
+export default MyApp;

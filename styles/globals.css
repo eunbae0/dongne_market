@@ -18,3 +18,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.authInput {
+  @apply h-12 w-full my-2 px-3 rounded-md border border-solid border-slate-300 outline-none
+}
+
+.authBtn {
+  @apply h-12 w-full my-2 rounded-md bg-purple-600 hover:bg-purple-700 text-white outline-none
+}
