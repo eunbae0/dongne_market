@@ -1,14 +1,13 @@
 import Link from 'next/link';
 
 import { onAuthStateChanged } from 'firebase/auth';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { auth } from '../firebase.config';
-
-import { isUserLogin } from '../recoil/state';
+import { userInfo } from '../recoil/state';
 
 function Home() {
   // 이 파일은 경로 / 인 파일이므로 isLogin정보는 _app단에서 할것 - 글쓰기
-  const isLogin = useRecoilValue(isUserLogin);
+  const { isLogin } = useRecoilValue(userInfo);
   return (
     <div className="h-screen">
       {isLogin ? (
@@ -26,4 +25,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;

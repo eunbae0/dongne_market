@@ -1,7 +1,7 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { authCurrentStep, isUserLogin } from '../../recoil/state';
+import { authCurrentStep, userInfo } from '../../recoil/state';
 
 import ProgressBar from './progressBar';
 import Create from './create';
@@ -9,7 +9,7 @@ import SetInfo from './setInfo';
 import Welcome from './welcome';
 
 function SignUp() {
-  const isLogin = useRecoilValue(isUserLogin);
+  const { isLogin } = useRecoilValue(userInfo);
   const router = useRouter();
   // const beforeUnloadListener = (event) => {
   //   event.preventDefault();
@@ -53,3 +53,19 @@ function SignUp() {
 }
 
 export default SignUp;
+
+// export default function Login() {
+//   import { stepState } from "@src/states/Auth";
+
+//   return (
+//     <MainLayout>
+//       <div>This is Login Page</div>
+//       {isAuthenticating && <Spinner />}
+//       {step == AuthStep.READY && <Ready />}
+//       {step == AuthStep.AGREE && <Agreements />}
+//       {step == AuthStep.PROFILE_REQUIRED && (
+//         <RequiredProfile />
+//       )}
+//     </MainLayout>
+//   );
+// }

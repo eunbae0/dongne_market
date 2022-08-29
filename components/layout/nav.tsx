@@ -4,10 +4,10 @@ import { signOut } from 'firebase/auth';
 import { useRecoilValue } from 'recoil';
 import { auth } from '../../firebase.config';
 
-import { isUserLogin, authCurrentStep } from '../../recoil/state';
+import { userInfo, authCurrentStep } from '../../recoil/state';
 
 function Nav({ isLoginLoading }: { isLoginLoading: boolean }) {
-  const isLogin = useRecoilValue(isUserLogin);
+  const { isLogin } = useRecoilValue(userInfo);
   const currentStep = useRecoilValue(authCurrentStep);
   const router = useRouter();
 

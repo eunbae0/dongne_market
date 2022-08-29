@@ -3,9 +3,13 @@ import { atom } from 'recoil';
 
 // const { persistAtom } = recoilPersist({key: 'userId'});
 
-const isUserLogin = atom({
-  key: 'isUserLogin',
-  default: false,
+const userInfo = atom({
+  key: 'userInfo',
+  default: {
+    isLogin: false,
+    uid: '',
+    nickname: '',
+  },
 });
 
 const userId = atom({
@@ -19,4 +23,4 @@ const authCurrentStep = atom({
   // effects_UNSTABLE: [persistAtom],
 });
 // eslint-disable-next-line import/prefer-default-export
-export { isUserLogin, userId, authCurrentStep };
+export { userInfo, userId, authCurrentStep };

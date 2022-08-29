@@ -5,11 +5,11 @@ import { useRecoilValue } from 'recoil';
 import { setDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { auth, storage, db } from '../../firebase.config';
-import { isUserLogin, authCurrentStep } from '../../recoil/state';
+import { userInfo, authCurrentStep } from '../../recoil/state';
 
 interface ImgFile {
   src: string;
-  file: File;
+  file?: File;
 }
 
 function PreviewImg({ src }: { src: string }) {
@@ -17,7 +17,7 @@ function PreviewImg({ src }: { src: string }) {
 }
 
 function Write() {
-  const isLogin = useRecoilValue(isUserLogin);
+  const { isLogin } = useRecoilValue(userInfo);
   const router = useRouter();
 
   const inputTitleRef = useRef<HTMLInputElement>(null);
@@ -29,7 +29,7 @@ function Write() {
   };
   const initObj: ImgFile = {
     src: '',
-    file: new File(['init'], 'init'),
+    // file: new File([], ''),
   };
   const [beforeUploadImg, setBeforeUploadImg] = useState<Array<ImgFile>>([initObj]);
   const onChangeFileInput = (e: React.FormEvent<HTMLInputElement>) => {

@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 
 import { useRecoilValue } from 'recoil';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { isUserLogin } from '../../recoil/state';
+import { userInfo } from '../../recoil/state';
 
 import { auth } from '../../firebase.config';
 
 function Auth() {
   const inputEmailRef = useRef<HTMLInputElement>(null);
   const inputPasswordRef = useRef<HTMLInputElement>(null);
-  const isLogin = useRecoilValue(isUserLogin);
+  const { isLogin } = useRecoilValue(userInfo);
   const router = useRouter();
 
   const onSubmitLoginForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,11 @@ function Auth() {
       })
       .catch((err) => {
         if (err.code === 'auth/user-not-found') {
-          alert('이메일 또는 비밀번호를 확인해주세요');
+          alert('이메일을 확인해주세요');
+          return;
+        }
+        if (err.code === 'auth/wrong-password') {
+          alert('비밀번호를 확인해주세요');
           return;
         }
         console.log(err.code, '+', err.message);
