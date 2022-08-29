@@ -14,8 +14,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useMemo(() => {
     onAuthStateChanged(auth, async (user) => {
       setIsLoginLoading(false);
-      const { uid } = user as User;
       if (user) {
+        const { uid } = user as User;
         // https://firebase.google.com/docs/reference/js/firebase.User
         const userInfoDocSnap = await getDoc(doc(db, 'User', uid));
         if (userInfoDocSnap.exists()) {

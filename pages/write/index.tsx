@@ -7,6 +7,8 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { auth, storage, db } from '../../firebase.config';
 import { userInfo, authCurrentStep } from '../../recoil/state';
 
+import useRedirect from '../../hooks/useRedirect';
+
 interface ImgFile {
   src: string;
   file?: File;
@@ -18,15 +20,15 @@ function PreviewImg({ src }: { src: string }) {
 
 function Write() {
   const { isLogin } = useRecoilValue(userInfo);
-  const router = useRouter();
+  // const router = useRouter();
 
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const inputContentRef = useRef<HTMLInputElement>(null);
 
-  const redirectLoginPage = () => {
-    alert('로그인 후 이용해주세요');
-    router.push('/auth');
-  };
+  // const redirectLoginPage = () => {
+  //   alert('로그인 후 이용해주세요');
+  //   router.push('/auth');
+  // };
   const initObj: ImgFile = {
     src: '',
     // file: new File([], ''),
@@ -67,13 +69,7 @@ function Write() {
     //   images: [],
     // });
   };
-
-  useEffect(() => {
-    if (!isLogin) {
-      router.prefetch('/auth');
-      redirectLoginPage();
-    }
-  }, []);
+  useRedirect(isLogin);
   return (
     <div>
       <input type="text" placeholder="제목" ref={inputTitleRef} required />
