@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 동네마켓
 
-## Getting Started
+---
 
-First, run the development server:
+:: 당근마켓 기능을 구현해 본 토이 프로젝트입니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 주요 기능 개발 기간 : -
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+[>>노션 링크<<](https://fragrant-spectrum-fff.notion.site/4c0efc846ee4421980d668203f1b81da)
+---
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 👨‍💻 사용 기술 스택
+### 언어
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Typescript
 
-## Learn More
+### 프레임워크 및 백엔드
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js
+- Firebase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 기술 스택
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Prettier + ESLint
+- Tailwind CSS
+- Recoil
 
-## Deploy on Vercel
+---
+## 📑 기능명세서
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[동네마켓 기능명세서](https://docs.google.com/spreadsheets/d/1C9d5SRllIB5jguL8zY5kZxrIWjlpRTAf4Pa25olYSW0/edit?usp=drivesdk)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 📉 스프린트 백로그
+
+[동네마켓 스프린트 백로그](https://www.notion.so/cd84efdb56144e398a77b54379a9eeaa)
+
+## 💾 데이터베이스
+
+[동네마켓 데이터베이스](https://www.notion.so/60b5e4b9545f426a992588261b614a27)
+
+## 🖌 회고 글
+
+## 기타
+
+[ReadMe](https://www.notion.so/ReadMe-5435999da4b74d29ab977e4fa9d69268)
+
+[참고 자료](https://www.notion.so/4786f1e0d05846b29faf46628ec01fa9)
