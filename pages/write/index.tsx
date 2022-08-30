@@ -1,41 +1,43 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { v4 as uuid } from 'uuid';
 
 import { useRecoilValue } from 'recoil';
 import { setDoc, doc } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
-import { auth, storage, db } from '../../firebase.config';
-import { userInfo, authCurrentStep } from '../../recoil/state';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Image from 'next/image';
+import { storage, db } from '../../firebase.config';
+import { userInfo } from '../../recoil/state';
 
 import useRedirect from '../../hooks/useRedirect';
 
 interface ImgFile {
   src: string;
-  file?: File;
+  file: File;
 }
 
-function PreviewImg({ src }: { src: string }) {
-  return <img src={src} className="w-20" />;
+function PreviewImg({ src, deleteImgObj }: { src: string; deleteImgObj: (src: string) => void }) {
+  return (
+    <>
+      <Image src={src} alt={src} width="20px" height="20px" className="w-20" />
+      <button type="button" onClick={() => deleteImgObj(src)}>
+        X
+      </button>
+    </>
+  );
 }
 
 function Write() {
-  const { isLogin } = useRecoilValue(userInfo);
-  // const router = useRouter();
+  const router = useRouter();
+  const { isLogin, uid } = useRecoilValue(userInfo);
 
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const inputContentRef = useRef<HTMLInputElement>(null);
+  const selectUsageRef = useRef<HTMLSelectElement>(null);
 
-  // const redirectLoginPage = () => {
-  //   alert('로그인 후 이용해주세요');
-  //   router.push('/auth');
-  // };
-  const initObj: ImgFile = {
-    src: '',
-    // file: new File([], ''),
-  };
-  const [beforeUploadImg, setBeforeUploadImg] = useState<Array<ImgFile>>([initObj]);
+  // 이미지파일 관리
+  const [beforeUploadImgObj, setBeforeUploadImgObj] = useState<Array<ImgFile>>([]);
   const onChangeFileInput = (e: React.FormEvent<HTMLInputElement>) => {
-    // console.log(e);
     // console.log(e.target.value);
     const file = (e.target as HTMLInputElement).files as FileList;
     const fileArr = Array.from(file);
@@ -48,26 +50,45 @@ function Write() {
           src: result,
           file: f,
         };
-        setBeforeUploadImg((prevArray) => [...prevArray, resultObj]);
-        console.log(result);
+        setBeforeUploadImgObj((prevArray) => [...prevArray, resultObj]);
       };
     });
   };
+  const deleteImgObj = (src: string) => {
+    setBeforeUploadImgObj(beforeUploadImgObj.filter((user) => user.src !== src));
+  };
 
-  const onClickSubmitBtn = async () => {
+  // 제출하기
+  const onClickSubmitBtn = (e: React.FormEvent<HTMLButtonElement>) => {
     const title = inputTitleRef.current?.value as string;
     const content = inputContentRef.current?.value as string;
-    beforeUploadImg.forEach((imgFile) => {
-      const storageRef = ref(storage, `${imgFile.file.name}`);
+    const usage = selectUsageRef.current?.value as string;
+    const postId = uuid();
+
+    const imgUrlArr: string[] = [];
+    beforeUploadImgObj.forEach((imgFile) => {
+      const storageRef = ref(storage, `postImage/${uid}/${postId}/${imgFile.file.name}`);
       uploadBytes(storageRef, imgFile.file).then((snapshot) => {
-        console.log(snapshot.ref.bucket);
+        getDownloadURL(snapshot.ref).then((url) => {
+          // setImgUrlArr((prev) => [...prev, url]);
+          imgUrlArr.push(url);
+          if (imgUrlArr.length === beforeUploadImgObj.length) {
+            setDoc(doc(db, 'Post', postId), {
+              postId,
+              author_id: uid,
+              title,
+              content,
+              images: imgUrlArr,
+              usage,
+              timeStamp: e.timeStamp,
+            }).then(() => {
+              alert('작성이 완료되었습니다.');
+              router.push('/');
+            });
+          }
+        });
       });
     });
-    // await setDoc(doc(db, 'Post'), {
-    //   title,
-    //   content,
-    //   images: [],
-    // });
   };
   useRedirect(isLogin);
   return (
@@ -75,14 +96,14 @@ function Write() {
       <input type="text" placeholder="제목" ref={inputTitleRef} required />
       <input type="text" placeholder="내용" ref={inputContentRef} required />
       <input type="file" onChange={onChangeFileInput} multiple accept=".jpg, .jpeg, .png" />
-      {beforeUploadImg.map((p) => (
-        <PreviewImg key={p.src} src={p.src} />
+      {beforeUploadImgObj.map((p) => (
+        <PreviewImg key={p.src} src={p.src} deleteImgObj={deleteImgObj} />
       ))}
-      <select placeholder="사용감" required>
-        <option value="first">있음</option>
-        <option value="second">적당함</option>
-        <option value="third">거의 새것</option>
-        <option value="fourth">미개봉</option>
+      <select ref={selectUsageRef} placeholder="사용감" required>
+        <option value="있음">있음</option>
+        <option value="적당함">적당함</option>
+        <option value="거의 새것">거의 새것</option>
+        <option value="미개봉">미개봉</option>
       </select>
       <button type="button" onClick={onClickSubmitBtn}>
         제출하기
@@ -94,6 +115,7 @@ function Write() {
 export default Write;
 
 // postId 설정 및 storage 경로로 지정해서 저장하기
+// 닉네임은 postid에 추가 x. 나중에 받아올때 user에서 찾아서 세팅.
 // 사용감 항목 받아와서 submit에 변수 지정
 // 작성자 id와 닉네임 recoil로 받아와서 저장
 // 업로드 전 이미지 배열 순서 변경 및 삭제하기
