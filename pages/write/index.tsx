@@ -63,7 +63,7 @@ function Write() {
   };
 
   // 제출하기
-  const onClickSubmitBtn = (e: React.FormEvent<HTMLButtonElement>) => {
+  const onClickSubmitBtn = () => {
     const title = inputTitleRef.current?.value as string;
     const content = inputContentRef.current?.value as string;
     const usage = selectUsageRef.current?.value as string;
@@ -84,7 +84,8 @@ function Write() {
               content,
               images: imgUrlArr,
               usage,
-              timeStamp: e.timeStamp,
+              timeStamp: Date.now(),
+              status: '판매중',
             }).then(() => {
               alert('작성이 완료되었습니다.');
               router.push('/');
@@ -123,3 +124,5 @@ export default Write;
 // 사용감 항목 받아와서 submit에 변수 지정
 // 작성자 id와 닉네임 recoil로 받아와서 저장
 // 업로드 전 이미지 배열 순서 변경 및 삭제하기
+
+// 이미지 드래그 순서변경로직
