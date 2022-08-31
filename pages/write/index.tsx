@@ -46,6 +46,10 @@ function Write() {
       reader.readAsDataURL(f);
       reader.onloadend = (finishedEvent) => {
         const result = (finishedEvent.currentTarget as FileReader).result!.toString();
+        if (beforeUploadImgObj.find((i) => i.src === result)) {
+          alert('중복된 이미지입니다.');
+          return;
+        }
         const resultObj: ImgFile = {
           src: result,
           file: f,
