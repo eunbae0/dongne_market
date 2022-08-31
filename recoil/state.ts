@@ -1,10 +1,11 @@
 import { atom } from 'recoil';
+import { v1 as uuid } from 'uuid';
 // import { recoilPersist } from 'recoil-persist';
 
 // const { persistAtom } = recoilPersist({key: 'userId'});
 
 const userInfo = atom({
-  key: 'userInfo',
+  key: `userInfo/${uuid()}`,
   default: {
     isLogin: false,
     uid: '',
@@ -13,12 +14,12 @@ const userInfo = atom({
 });
 
 const userId = atom({
-  key: 'userId',
+  key: `userId/${uuid()}`,
   default: '',
 });
 
 const authCurrentStep = atom({
-  key: 'authCurrentStep',
+  key: `authCurrentStep/${uuid()}`,
   default: 0,
   // effects_UNSTABLE: [persistAtom],
 });
