@@ -70,30 +70,46 @@ function Write() {
     const postId = uuid();
 
     const imgUrlArr: string[] = [];
-    beforeUploadImgObj.forEach((imgFile) => {
-      const storageRef = ref(storage, `postImage/${uid}/${postId}/${imgFile.file.name}`);
-      uploadBytes(storageRef, imgFile.file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          // setImgUrlArr((prev) => [...prev, url]);
-          imgUrlArr.push(url);
-          if (imgUrlArr.length === beforeUploadImgObj.length) {
-            setDoc(doc(db, 'Post', postId), {
-              postId,
-              author_id: uid,
-              title,
-              content,
-              images: imgUrlArr,
-              usage,
-              timeStamp: Date.now(),
-              status: '판매중',
-            }).then(() => {
-              alert('작성이 완료되었습니다.');
-              router.push('/');
-            });
-          }
+    if (beforeUploadImgObj.length !== 0) {
+      beforeUploadImgObj.forEach((imgFile) => {
+        const storageRef = ref(storage, `postImage/${uid}/${postId}/${imgFile.file.name}`);
+        uploadBytes(storageRef, imgFile.file).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            // setImgUrlArr((prev) => [...prev, url]);
+            imgUrlArr.push(url);
+            if (imgUrlArr.length === beforeUploadImgObj.length) {
+              setDoc(doc(db, 'Post', postId), {
+                postId,
+                author_id: uid,
+                title,
+                content,
+                images: imgUrlArr,
+                usage,
+                timeStamp: Date.now(),
+                status: '판매중',
+              }).then(() => {
+                alert('작성이 완료되었습니다.');
+                router.push('/');
+              });
+            }
+          });
         });
       });
-    });
+    } else {
+      setDoc(doc(db, 'Post', postId), {
+        postId,
+        author_id: uid,
+        title,
+        content,
+        images: [],
+        usage,
+        timeStamp: Date.now(),
+        status: '판매중',
+      }).then(() => {
+        alert('작성이 완료되었습니다.');
+        router.push('/');
+      });
+    }
   };
   useRedirect(isLogin);
   return (
