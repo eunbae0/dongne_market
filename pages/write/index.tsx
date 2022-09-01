@@ -33,6 +33,7 @@ function Write() {
 
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const inputContentRef = useRef<HTMLInputElement>(null);
+  const inputPriceRef = useRef<HTMLInputElement>(null);
   const selectUsageRef = useRef<HTMLSelectElement>(null);
 
   // 이미지파일 관리
@@ -66,8 +67,12 @@ function Write() {
   const onClickSubmitBtn = () => {
     const title = inputTitleRef.current?.value as string;
     const content = inputContentRef.current?.value as string;
+    const price = inputPriceRef.current?.value as string;
     const usage = selectUsageRef.current?.value as string;
     const postId = uuid();
+    const addComma = (p: string) => {
+      return p.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
 
     const imgUrlArr: string[] = [];
     if (beforeUploadImgObj.length !== 0) {
@@ -83,6 +88,7 @@ function Write() {
                 author_id: uid,
                 title,
                 content,
+                price: addComma(price),
                 images: imgUrlArr,
                 usage,
                 timeStamp: Date.now(),
@@ -101,6 +107,7 @@ function Write() {
         author_id: uid,
         title,
         content,
+        price: addComma(price),
         images: [],
         usage,
         timeStamp: Date.now(),
@@ -116,6 +123,7 @@ function Write() {
     <div>
       <input type="text" placeholder="제목" ref={inputTitleRef} required />
       <input type="text" placeholder="내용" ref={inputContentRef} required />
+      <input type="text" placeholder="가격" ref={inputPriceRef} required />
       <input type="file" onChange={onChangeFileInput} multiple accept=".jpg, .jpeg, .png" />
       {beforeUploadImgObj.map((p) => (
         <PreviewImg key={p.src} src={p.src} deleteImgObj={deleteImgObj} />
