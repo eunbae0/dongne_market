@@ -5,18 +5,8 @@ import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { db } from '../../firebase.config';
 import { userInfo } from '../../recoil/state';
+import { PostData } from '../../types/post';
 
-interface PostData {
-  postId: string;
-  author_id: string;
-  title: string;
-  content: string;
-  usage: string;
-  timeStamp: number;
-  nickname: string;
-  status: string;
-  images?: string[];
-}
 function Post() {
   const router = useRouter();
   const postId = router.query.postId as string;

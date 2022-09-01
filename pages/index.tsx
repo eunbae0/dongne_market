@@ -1,13 +1,24 @@
 import Link from 'next/link';
 
-import { onAuthStateChanged } from 'firebase/auth';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { auth } from '../firebase.config';
+import { useRecoilValue } from 'recoil';
+import { collection, getDocs } from 'firebase/firestore';
+import { useState } from 'react';
 import { userInfo } from '../recoil/state';
+import { db } from '../firebase.config';
+
+import { PostData } from '../types/post';
+import Post from '../components/post';
 
 function Home() {
-  // 이 파일은 경로 / 인 파일이므로 isLogin정보는 _app단에서 할것 - 글쓰기
   const { isLogin } = useRecoilValue(userInfo);
+  const [postArr, setPostArr] = useState<PostData[]>();
+  const getPostArr = async () => {
+    const postDocsSnap = await getDocs(collection(db, 'Post'));
+    const p = postDocsSnap.docs.map((doc) => doc.data()) as PostData[];
+    setPostArr(p);
+  };
+  getPostArr();
+
   return (
     <div className="h-screen">
       {isLogin ? (
@@ -22,6 +33,11 @@ function Home() {
       <Link href="/write">
         <a>글쓰기(임시)</a>
       </Link>
+      <ul>
+        {postArr?.map((postData) => (
+          <Post key={postData.postId} postData={postData} />
+        ))}
+      </ul>
     </div>
   );
 }
