@@ -5,6 +5,8 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['firebasestorage.googleapis.com'],
+    loader: 'akamai',
+    path: '',
   },
   webpack: (config) => {
     config.plugins.push(new Dotenv({ silent: true }));
