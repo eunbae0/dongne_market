@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { getDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { db } from '../../firebase.config';
@@ -12,9 +12,9 @@ function Post() {
   const postId = router.query.postId as string;
   const { uid } = useRecoilValue(userInfo);
 
-  const redirectHome = () => {
+  const redirectHome = useCallback(() => {
     router.push('/');
-  };
+  }, [router]);
 
   const [isGetPostData, setIsGetPostData] = useState(true);
   const [postData, setPostData] = useState<PostData>();
@@ -27,6 +27,14 @@ function Post() {
       const postDataObj: PostData = {
         ...data,
         nickname,
+        postId: '',
+        author_id: '',
+        title: '',
+        content: '',
+        usage: '',
+        timeStamp: 0,
+        status: '',
+        price: '',
       };
       // console.log(postDataObj);
       setPostData(postDataObj);

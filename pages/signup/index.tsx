@@ -39,7 +39,7 @@ function SignUp() {
       alert('이미 로그인 되어있습니다.');
       router.push('/');
     }
-  }, []);
+  }, [currentStep, isLogin, router]);
   return (
     <div className="h-full w-9/12 mx-auto my-0">
       <div className="h-3/5 w-full bg-slate-200 mt-32 flex justify-center items-center">
