@@ -11,15 +11,21 @@ function Post({ postData }: { postData: PostData }) {
     router.push(`/post/${postData.postId}`);
   };
   return (
-    <li onClick={onClickPost}>
-      <Image
-        src={postData.images && postData.images?.length !== 0 ? postData.images[0] : noImg}
-        alt=""
-        width="100px"
-        height="100px"
-      />
-      <div>{postData.title}</div>
-      <div>{postData.price}</div>
+    <li onClick={onClickPost} className="bg-white rounded-2xl pt-1 cursor-pointer">
+      <div className="relative m-3">
+        <div className="relative h-[170px]">
+          <Image
+            src={postData.images && postData.images?.length !== 0 ? postData.images[0] : noImg}
+            alt=""
+            layout="fill"
+            className="rounded-2xl"
+          />
+        </div>
+      </div>
+      <div className="flex px-5 pt-1 pb-4 items-end">
+        <div>{postData.title}</div>
+        <div>{postData.price}</div>
+      </div>
     </li>
   );
 }
