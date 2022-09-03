@@ -6,7 +6,7 @@
 
 ---
 
-### 주요 기능 개발 기간 : -
+### 주요 기능 개발 기간 : 2022.08~
 
 [>>노션 링크<<](https://fragrant-spectrum-fff.notion.site/4c0efc846ee4421980d668203f1b81da)
 ---
