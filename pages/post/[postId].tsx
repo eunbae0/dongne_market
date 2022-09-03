@@ -27,14 +27,6 @@ function Post() {
       const postDataObj: PostData = {
         ...data,
         nickname,
-        postId: '',
-        author_id: '',
-        title: '',
-        content: '',
-        usage: '',
-        timeStamp: 0,
-        status: '',
-        price: '',
       };
       // console.log(postDataObj);
       setPostData(postDataObj);
