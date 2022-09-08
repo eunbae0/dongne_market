@@ -21,14 +21,13 @@ function Post() {
   const getPostData = async () => {
     const postDocSnap = await getDoc(doc(db, 'Post', postId));
     if (postDocSnap.exists()) {
-      const data = postDocSnap.data();
+      const data = postDocSnap.data() as PostData;
       const getNickname = await getDoc(doc(db, 'User', data.author_id));
       const nickname = getNickname.data()?.nickname as string;
-      const postDataObj: PostData = {
+      const postDataObj = {
         ...data,
         nickname,
       };
-      // console.log(postDataObj);
       setPostData(postDataObj);
       setIsGetPostData(false);
     } else {
