@@ -27,3 +27,11 @@ a {
 .authBtn {
   @apply h-12 w-full my-2 rounded-md bg-purple-600 hover:bg-purple-700 text-white outline-none
 }
+
+.chatBtn {
+  @apply h-12 w-full my-2 rounded-md bg-purple-600 hover:bg-purple-700 text-white outline-none
+}
+
+.statusBox {
+  @apply h-10 w-16 text-center pt-2 rounded-md bg-purple-600 text-white outline-none
+}

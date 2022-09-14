@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
 import { getDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { db } from '../../firebase.config';
 import { userInfo } from '../../recoil/state';
 import { PostData } from '../../types/post';
+import ShowMore from '../../components/common/showMore';
 
 function Post() {
   const router = useRouter();
@@ -35,7 +36,12 @@ function Post() {
       redirectHome();
     }
   };
-  getPostData();
+  useMemo(() => {
+    console.log('render');
+    getPostData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const convertTimeStamp = (time: number) => {
     const date = new Date(time);
     const addZero = (t: number) => {
@@ -49,20 +55,29 @@ function Post() {
     )}:${addZero(date.getMinutes())}`;
     return fullDate;
   };
+
+  // 수정 토글
+  const [isClickChange, setIsClickChange] = useState(false);
   // 판매중-판매완료 상태 변경
   const selectStatusRef = useRef<HTMLSelectElement>(null);
   const [isChangeStatus, setIsChangeStatus] = useState(false);
   const onChangeStatusSelect = async () => {
     const status = selectStatusRef.current?.value as string;
+    if (status === postData!.status) {
+      setIsChangeStatus(false);
+    }
     await updateDoc(doc(db, 'Post', postData!.postId), {
       status,
     }).then(() => {
+      getPostData();
       setIsChangeStatus(false);
     });
   };
   const onClickStatusChangeBtn = () => {
     setIsChangeStatus(true);
+    setIsClickChange(false);
   };
+
   // 게시글 삭제
   const onClickPostDeleteBtn = async () => {
     const ok = window.confirm('게시글을 삭제하시겠습니까?');
@@ -84,38 +99,66 @@ function Post() {
     }
   }, [isGetPostData, postData, postId, redirectHome]);
   return (
-    <div>
+    <div className="h-full w-7/12 mx-auto my-0">
       {!isGetPostData ? (
         postData && postId ? (
           <>
-            <div>{postData.title}</div>
-            <div>{postData.content}</div>
-            <div>{postData.nickname}</div>
-            <div>{convertTimeStamp(postData.timeStamp)}</div>
+            <div className="relative mt-24 flex justify-between items-center">
+              <h2 className="font-bold text-4xl">{postData.title}</h2>
+              {uid === postData.author_id && <ShowMore setIsClickChange={setIsClickChange} />}
+              {isClickChange && (
+                <div className="absolute top-10 right-0 flex flex-col justify-center bg-purple-100 rounded-md">
+                  <button
+                    className="px-2 py-1 text-sm"
+                    type="button"
+                    onClick={onClickStatusChangeBtn}
+                  >
+                    상태변경하기
+                  </button>
+                  <button
+                    className="px-2 py-1 text-sm"
+                    type="button"
+                    onClick={onClickPostDeleteBtn}
+                  >
+                    게시글 삭제
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="mt-8 flex justify-between items-center w-full">
+              <div>
+                <span>{postData.nickname}</span>
+                <span className="px-2">|</span>
+                <span>{convertTimeStamp(postData.timeStamp)}</span>
+              </div>
+              {isChangeStatus ? (
+                <select ref={selectStatusRef} onChange={onChangeStatusSelect}>
+                  {postData.status === '판매중' ? (
+                    <>
+                      <option value="판매중">판매중</option>
+                      <option value="판매완료">판매완료</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="판매완료">판매완료</option>
+                      <option value="판매중">판매중</option>
+                    </>
+                  )}
+                </select>
+              ) : (
+                <div className="statusBox">{postData.status}</div>
+              )}
+            </div>
             {postData.images &&
               postData.images.map((src: string) => (
-                <Image key={src} src={src} alt={src} width="100px" height="100px" />
+                <div key={src} className="w-full my-8">
+                  <Image src={src} alt={src} width="500px" height="500px" />
+                </div>
               ))}
+            <h3 className="font-bold text-2xl">{postData.price}</h3>
+            <span className="inline-block tracking-wider my-6">{postData.content}</span>
             <div>{postData.usage}</div>
-            {isChangeStatus ? (
-              <select ref={selectStatusRef} onChange={onChangeStatusSelect}>
-                <option value="판매중">판매중</option>
-                <option value="판매완료">판매완료</option>
-              </select>
-            ) : (
-              <div>{postData.status}</div>
-            )}
-            {uid === postData.author_id && (
-              <>
-                <button type="button" onClick={onClickStatusChangeBtn}>
-                  상태변경하기
-                </button>
-                <button type="button" onClick={onClickPostDeleteBtn}>
-                  게시글 삭제
-                </button>
-              </>
-            )}
-            <button type="button" onClick={onClickChatBtn}>
+            <button className="chatBtn" type="button" onClick={onClickChatBtn}>
               채팅하기
             </button>
           </>

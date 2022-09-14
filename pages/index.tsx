@@ -67,7 +67,7 @@ function Home() {
       <button type="button" className="fixed right-24 bottom-16 p-2 rounded-full bg-white border-1">
         <Link href="/write">
           <a>
-            <Image src={Write} alt="" width="32px" height="32px" />
+            <Image className="object-none" src={Write} alt="" width="32px" height="32px" />
           </a>
         </Link>
       </button>
