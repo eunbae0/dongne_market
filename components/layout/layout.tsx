@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-screen relative">
       <Navbar isLoginLoading={isLoginLoading} />
-      {isLoginLoading && <main className="h-screen">{children}</main>}
+      {isLoginLoading && <main>{children}</main>}
       <Footer />
     </div>
   );
