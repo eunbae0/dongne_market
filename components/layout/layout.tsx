@@ -19,11 +19,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const userInfoDocSnap = await getDoc(doc(db, 'User', uid));
         if (userInfoDocSnap.exists()) {
-          const { nickname } = userInfoDocSnap.data();
+          const { nickname, email } = userInfoDocSnap.data();
           const userLoginObj = {
             isLogin: true,
             uid,
             nickname,
+            email,
           };
           setUserInfo(userLoginObj);
           setIsLoginLoading(true);
@@ -37,6 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           isLogin: false,
           uid: '',
           nickname: '',
+          email: '',
         };
         setUserInfo(userLogoutObj);
         setIsLoginLoading(true);
@@ -44,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     });
   }, [setUserInfo]);
   return (
-    <div className="h-screen relative">
+    <div className="relative">
       <Navbar isLoginLoading={isLoginLoading} />
       {isLoginLoading && <main>{children}</main>}
       <Footer />
