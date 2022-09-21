@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { PostData } from '../../types/post';
+import { PostData } from '../../types';
 import noImg from '../../styles/noImage.png';
 
 function Post({ postData }: { postData: PostData }) {

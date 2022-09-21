@@ -10,3 +10,10 @@ export interface PostData {
   price: string;
   images?: string[];
 }
+
+export interface UserData {
+  email: string;
+  introduction: string;
+  neightborhood: string;
+  nickname: string;
+}
