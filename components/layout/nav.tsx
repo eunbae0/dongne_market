@@ -18,6 +18,7 @@ function Nav({ isLoginLoading }: { isLoginLoading: boolean }) {
   const onClickLogout = () => {
     signOut(auth);
     alert('로그아웃되었습니다.');
+    router.push('/');
   };
   return (
     <nav className="h-14 w-full flex justify-between items-center px-10">

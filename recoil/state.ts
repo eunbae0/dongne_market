@@ -10,6 +10,7 @@ const userInfo = atom({
     isLogin: false,
     uid: '',
     nickname: '',
+    email: '',
   },
 });
 

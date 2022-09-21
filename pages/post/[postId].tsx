@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { db } from '../../firebase.config';
 import { userInfo } from '../../recoil/state';
-import { PostData } from '../../types/post';
+import { PostData } from '../../types';
 import ShowMore from '../../components/common/showMore';
 
 function Post() {
