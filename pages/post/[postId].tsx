@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-import { getDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getDoc, deleteDoc, doc } from 'firebase/firestore';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { db } from '../../firebase.config';
 import { userInfo } from '../../recoil/state';
 import { PostData } from '../../types';
 import ShowMore from '../../components/common/showMore';
+import ChangeStatus from '../../components/post/changeStatus';
 
 function Post() {
   const router = useRouter();
@@ -59,20 +60,7 @@ function Post() {
   // 수정 토글
   const [isClickChange, setIsClickChange] = useState(false);
   // 판매중-판매완료 상태 변경
-  const selectStatusRef = useRef<HTMLSelectElement>(null);
   const [isChangeStatus, setIsChangeStatus] = useState(false);
-  const onChangeStatusSelect = async () => {
-    const status = selectStatusRef.current?.value as string;
-    if (status === postData!.status) {
-      setIsChangeStatus(false);
-    }
-    await updateDoc(doc(db, 'Post', postData!.postId), {
-      status,
-    }).then(() => {
-      getPostData();
-      setIsChangeStatus(false);
-    });
-  };
   const onClickStatusChangeBtn = () => {
     setIsChangeStatus(true);
     setIsClickChange(false);
@@ -132,19 +120,11 @@ function Post() {
                 <span>{convertTimeStamp(postData.timeStamp)}</span>
               </div>
               {isChangeStatus ? (
-                <select ref={selectStatusRef} onChange={onChangeStatusSelect}>
-                  {postData.status === '판매중' ? (
-                    <>
-                      <option value="판매중">판매중</option>
-                      <option value="판매완료">판매완료</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="판매완료">판매완료</option>
-                      <option value="판매중">판매중</option>
-                    </>
-                  )}
-                </select>
+                <ChangeStatus
+                  postData={postData}
+                  setIsChangeStatus={setIsChangeStatus}
+                  getData={getPostData}
+                />
               ) : (
                 <div className="statusBox">{postData.status}</div>
               )}

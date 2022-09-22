@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative">
       <Navbar isLoginLoading={isLoginLoading} />
-      {isLoginLoading && <main>{children}</main>}
+      {isLoginLoading && <main className="min-h-[calc(100vh_-_3.5rem_-_2rem)]">{children}</main>}
       <Footer />
     </div>
   );

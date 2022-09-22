@@ -3,6 +3,7 @@ import { getDoc, doc, getDocs, collection, where, query, deleteDoc } from 'fireb
 import { deleteUser, reauthenticateWithCredential, User, EmailAuthProvider } from 'firebase/auth';
 import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
+// import Image from 'next/image';
 import { db, auth } from '../../firebase.config';
 import { userInfo } from '../../recoil/state';
 import { PostData, UserData } from '../../types';
@@ -68,7 +69,7 @@ function MyPage() {
     setUserData(userDataObj);
   };
   const [postArr, setPostArr] = useState<PostData[]>();
-  const getPostArr = async () => {
+  const getMyPagePostArr = async () => {
     const postDocsSnap = await getDocs(
       query(collection(db, 'Post'), where('author_id', '==', uid))
     );
@@ -78,7 +79,7 @@ function MyPage() {
   useMemo(() => {
     console.log('render');
     getUserData();
-    getPostArr();
+    getMyPagePostArr();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -123,20 +124,17 @@ function MyPage() {
         <div className="py-12 bg-white rounded-lg">
           <div className="flex flex-col items-center">
             <div className="rounded-full w-28 h-28 bg-slate-700" />
-            <div>{userData?.nickname}</div>
+            {/* <Image src="" alt="" layout="fill" objectFit="cover" /> */}
+            <div className="my-4">{userData?.nickname}</div>
             <div className="flex flex-col items-start w-11/12">
               <h3 className="my-2">소개글</h3>
-              {userData?.introduction ? (
-                <div>{userData?.introduction}</div>
-              ) : (
-                '소개글이 작성되지 않았습니다'
-              )}
-              <h3>동네 정보</h3>
-              {userData?.neightborhood ? (
-                <div>{userData?.neightborhood}</div>
-              ) : (
-                '동네정보가 없습니다'
-              )}
+              <span>
+                {userData?.introduction ? userData?.introduction : '소개글이 작성되지 않았습니다'}
+              </span>
+              <h3 className="my-2">동네 정보</h3>
+              <span>
+                {userData?.neightborhood ? userData?.neightborhood : '동네정보가 없습니다'}
+              </span>
             </div>
             <button onClick={onClickWithdrawalBtn} type="button">
               탈퇴하기
@@ -145,7 +143,14 @@ function MyPage() {
         </div>
         <ul className="grid grid-cols-3 gap-x-6 gap-y-6 mt-8">
           {postArr
-            ? postArr.map((postData) => <Post key={postData.postId} postData={postData} />)
+            ? postArr.map((postData) => (
+                <Post
+                  key={postData.postId}
+                  postData={postData}
+                  isMyPage
+                  getData={getMyPagePostArr}
+                />
+              ))
             : '작성된 게시글이 없습니다'}
         </ul>
       </div>

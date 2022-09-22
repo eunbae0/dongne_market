@@ -31,7 +31,7 @@ function Home() {
   }, [isClickStatusBtn]);
 
   return (
-    <div className="h-screen relative">
+    <div className="relative">
       <div className="w-6/12 mx-auto my-0">
         <div className="flex items-center">
           <h2 className="text-3xl font-bold mr-auto">중고거래</h2>
@@ -59,7 +59,13 @@ function Home() {
         <div>
           <ul className="grid grid-cols-3 gap-x-6 gap-y-6 mt-8">
             {postArr?.map((postData) => (
-              <Post key={postData.postId} postData={postData} />
+              <Post
+                key={postData.postId}
+                postData={postData}
+                getData={() => {
+                  return null;
+                }}
+              />
             ))}
           </ul>
         </div>
