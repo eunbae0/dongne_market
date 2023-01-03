@@ -29,7 +29,7 @@ jobs:
           DONGNE_MARKET_APP_ID: ${{ secrets.DONGNE_MARKET_APP_ID }}
           DONGNE_MARKET_MEASUREMENT_ID: ${{ secrets.DONGNE_MARKET_MEASUREMENT_ID }}
 
-      - run: npm ci && npm run build
+      - run: npm ci && npm run deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
