@@ -10,7 +10,8 @@ function SetInfo({ setCurrentStep }: { setCurrentStep: React.Dispatch<SetStateAc
   const inputNeightborRef = useRef<HTMLInputElement>(null);
   const uid = useRecoilValue(userId);
 
-  const onSubmitInfoForm = async () => {
+  const onSubmitInfoForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const introduction = inputIntroRef.current?.value as string;
     const neightborhood = inputNeightborRef.current?.value as string;
     // if (introduction === '' || neightborhood === '') {
