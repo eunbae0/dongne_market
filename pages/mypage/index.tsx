@@ -49,8 +49,8 @@ function ChangeUserInfo({
     }
   };
   return (
-    <div className="bg-white w-8/12 h-8/12 flex flex-col items-center">
-      <span>회원 계정 정보 변경을 위해 비밀번호를 다시 입력해주세요</span>
+    <div className="mx-auto my-32 w-8/12 h-8/12 flex flex-col items-center">
+      <span className="mb-10">회원 계정 정보 변경을 위해 비밀번호를 다시 입력해주세요</span>
       <form onSubmit={onsubmitForm}>
         <input type="password" placeholder="password" ref={inputRef} />
       </form>
