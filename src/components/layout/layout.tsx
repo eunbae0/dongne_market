@@ -6,7 +6,7 @@ import Navbar from './nav';
 import Footer from './footer';
 
 import { userInfo } from '../../recoil/state';
-import { auth, db } from '../../firebase.config';
+import { auth, db } from '../../../firebase.config';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const setUserInfo = useSetRecoilState(userInfo);

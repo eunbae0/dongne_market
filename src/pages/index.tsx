@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { collection, getDocs, where, query } from 'firebase/firestore';
 import { useMemo, useState } from 'react';
-import { db } from '../firebase.config';
+import { db } from '../../firebase.config';
 
 import { PostData } from '../types';
 import Post from '../components/post';

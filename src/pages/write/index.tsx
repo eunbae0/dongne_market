@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { setDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Image from 'next/image';
-import { storage, db } from '../../firebase.config';
+import { storage, db } from '../../../firebase.config';
 import { userInfo } from '../../recoil/state';
 
 import useRedirect from '../../hooks/useRedirect';

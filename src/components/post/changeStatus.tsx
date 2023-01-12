@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase.config';
+import { db } from '../../../firebase.config';
 import { PostData } from '../../types';
 
 interface IChangeStatus {

@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import Layout from '../components/layout/layout';
-import { auth } from '../firebase.config';
+import { auth } from '../../firebase.config';
 
 import '../styles/globals.css';
 

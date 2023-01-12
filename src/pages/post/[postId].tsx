@@ -3,7 +3,7 @@ import { getDoc, deleteDoc, doc } from 'firebase/firestore';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { db } from '../../firebase.config';
+import { db } from '../../../firebase.config';
 import { userInfo } from '../../recoil/state';
 import { PostData } from '../../types';
 import ShowMore from '../../components/common/showMore';

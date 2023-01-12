@@ -2,7 +2,7 @@ import { useRef, SetStateAction } from 'react';
 
 import { doc, updateDoc } from 'firebase/firestore';
 import { useRecoilValue } from 'recoil';
-import { db } from '../../firebase.config';
+import { db } from '../../../firebase.config';
 import { userId } from '../../recoil/state';
 
 function SetInfo({ setCurrentStep }: { setCurrentStep: React.Dispatch<SetStateAction<number>> }) {

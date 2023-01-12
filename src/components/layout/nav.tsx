@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { signOut } from 'firebase/auth';
 import { useRecoilValue } from 'recoil';
-import { auth } from '../../firebase.config';
+import { auth } from '../../../firebase.config';
 
 import { userInfo, authCurrentStep } from '../../recoil/state';
 

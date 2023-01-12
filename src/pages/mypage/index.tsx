@@ -4,7 +4,7 @@ import { deleteUser, reauthenticateWithCredential, User, EmailAuthProvider } fro
 import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 // import Image from 'next/image';
-import { db, auth } from '../../firebase.config';
+import { db, auth } from '../../../firebase.config';
 import { userInfo } from '../../recoil/state';
 import { PostData, UserData } from '../../types';
 

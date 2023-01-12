@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { userId } from '../../recoil/state';
-import { auth, db } from '../../firebase.config';
+import { auth, db } from '../../../firebase.config';
 
 function Create({ setCurrentStep }: { setCurrentStep: React.Dispatch<SetStateAction<number>> }) {
   const inputEmailRef = useRef<HTMLInputElement>(null);

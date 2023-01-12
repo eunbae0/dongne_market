@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { userInfo } from '../../recoil/state';
 
-import { auth } from '../../firebase.config';
+import { auth } from '../../../firebase.config';
 
 function Auth() {
   const inputEmailRef = useRef<HTMLInputElement>(null);
