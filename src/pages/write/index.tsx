@@ -19,7 +19,7 @@ interface ImgFile {
 function PreviewImg({ src, deleteImgObj }: { src: string; deleteImgObj: (src: string) => void }) {
   return (
     <>
-      <Image src={src} alt={src} width="20px" height="20px" className="w-20" />
+      <Image src={src} alt={src} width="100px" height="100px" className="w-20 object-cover" />
       <button type="button" onClick={() => deleteImgObj(src)}>
         X
       </button>
@@ -32,7 +32,7 @@ function Write() {
   const { isLogin, uid } = useRecoilValue(userInfo);
 
   const inputTitleRef = useRef<HTMLInputElement>(null);
-  const inputContentRef = useRef<HTMLInputElement>(null);
+  const inputContentRef = useRef<HTMLTextAreaElement>(null);
   const inputPriceRef = useRef<HTMLInputElement>(null);
   const selectUsageRef = useRef<HTMLSelectElement>(null);
 
@@ -64,7 +64,7 @@ function Write() {
   };
 
   // 제출하기
-  const onClickSubmitBtn = () => {
+  const onSubmitWrite = () => {
     const title = inputTitleRef.current?.value as string;
     const content = inputContentRef.current?.value as string;
     const price = inputPriceRef.current?.value as string;
@@ -120,23 +120,73 @@ function Write() {
   };
   useRedirect(isLogin);
   return (
-    <div>
-      <input type="text" placeholder="제목" ref={inputTitleRef} required />
-      <input type="text" placeholder="내용" ref={inputContentRef} required />
-      <input type="text" placeholder="가격" ref={inputPriceRef} required />
-      <input type="file" onChange={onChangeFileInput} multiple accept=".jpg, .jpeg, .png" />
-      {beforeUploadImgObj.map((p) => (
-        <PreviewImg key={p.src} src={p.src} deleteImgObj={deleteImgObj} />
-      ))}
-      <select ref={selectUsageRef} placeholder="사용감" required>
-        <option value="있음">있음</option>
-        <option value="적당함">적당함</option>
-        <option value="거의 새것">거의 새것</option>
-        <option value="미개봉">미개봉</option>
-      </select>
-      <button type="button" onClick={onClickSubmitBtn}>
-        제출하기
-      </button>
+    <div className="w-9/12 mx-auto my-0 mt-10 bg-white rounded-md">
+      <form className="w-1/2 mx-auto my-0 py-6 flex flex-col items-center" onSubmit={onSubmitWrite}>
+        <input
+          className="w-full p-4 outline-none border-b text-xl"
+          type="text"
+          placeholder="제목"
+          ref={inputTitleRef}
+          required
+        />
+        <textarea
+          className="w-full mt-4 p-4 outline-none border-b text-lg resize-none"
+          placeholder="내용"
+          ref={inputContentRef}
+          required
+        />
+        <input
+          className="w-full mt-4 p-4 outline-none border-b text-xl"
+          type="number"
+          placeholder="가격"
+          ref={inputPriceRef}
+          required
+        />
+        <input
+          id="writeImgInput"
+          className="hidden"
+          type="file"
+          onChange={onChangeFileInput}
+          multiple
+          accept=".jpg, .jpeg, .png"
+        />
+        <div className="flex justify-start w-full">
+          <label
+            className="w-[100px] h-[100px] flex flex-col justify-center items-center cursor-pointer"
+            htmlFor="writeImgInput"
+          >
+            <svg
+              className="h-[24px] w-[24px]"
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              data-testid="CameraAltIcon"
+              aria-label="fontSize large"
+            >
+              <circle cx="12" cy="12" r="3.2" />
+              <path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
+            </svg>
+            <span>{beforeUploadImgObj.length}/10</span>
+          </label>
+          <div className="flex flex-1 flex-shrink-0">
+            {beforeUploadImgObj.map((p) => (
+              <PreviewImg key={p.src} src={p.src} deleteImgObj={deleteImgObj} />
+            ))}
+          </div>
+        </div>
+        <div className="w-full flex justify-between mt-8 items-center">
+          <h3 className="font-bold text-xl">사용감</h3>
+          <select className="p-3 outline-none" ref={selectUsageRef} placeholder="사용감" required>
+            <option value="있음">있음</option>
+            <option value="적당함">적당함</option>
+            <option value="거의 새것">거의 새것</option>
+            <option value="미개봉">미개봉</option>
+          </select>
+        </div>
+        <button className="chatBtn" type="submit">
+          제출하기
+        </button>
+      </form>
     </div>
   );
 }

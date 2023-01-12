@@ -21,7 +21,7 @@ function Nav({ isLoginLoading }: { isLoginLoading: boolean }) {
     router.push('/');
   };
   return (
-    <nav className="h-14 w-full flex justify-between items-center px-10">
+    <nav className="h-20 w-full flex justify-between items-center px-10">
       <div
         onClick={onClickLogo}
         className="text-2xl font-bold mr-auto"
