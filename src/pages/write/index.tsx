@@ -36,11 +36,17 @@ function Write() {
   const inputPriceRef = useRef<HTMLInputElement>(null);
   const selectUsageRef = useRef<HTMLSelectElement>(null);
 
+  const MAX_IMAGE_UPLOAD = 10;
   // 이미지파일 관리
   const [beforeUploadImgObj, setBeforeUploadImgObj] = useState<Array<ImgFile>>([]);
   const onChangeFileInput = (e: React.FormEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
     const file = (e.target as HTMLInputElement).files as FileList;
+
+    if (beforeUploadImgObj.length + file.length > MAX_IMAGE_UPLOAD) {
+      alert('최대 10장까지 업로드 가능합니다.');
+      return;
+    }
+
     const fileArr = Array.from(file);
     fileArr.forEach((f) => {
       const reader = new FileReader();
@@ -166,7 +172,9 @@ function Write() {
               <circle cx="12" cy="12" r="3.2" />
               <path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
             </svg>
-            <span>{beforeUploadImgObj.length}/10</span>
+            <span>
+              {beforeUploadImgObj.length}/{MAX_IMAGE_UPLOAD}
+            </span>
           </label>
           <div className="flex flex-1 flex-shrink-0">
             {beforeUploadImgObj.map((p) => (
