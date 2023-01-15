@@ -127,7 +127,10 @@ function Write() {
   useRedirect(isLogin);
   return (
     <div className="w-9/12 mx-auto my-0 mt-10 bg-white rounded-md">
-      <form className="w-1/2 mx-auto my-0 py-6 flex flex-col items-center" onSubmit={onSubmitWrite}>
+      <form
+        className="w-1/2 mx-auto my-0 py-10 flex flex-col items-center"
+        onSubmit={onSubmitWrite}
+      >
         <input
           className="w-full p-4 outline-none border-b text-xl"
           type="text"
@@ -156,7 +159,7 @@ function Write() {
           multiple
           accept=".jpg, .jpeg, .png"
         />
-        <div className="flex justify-start w-full">
+        <div className="mt-4 flex justify-start w-full">
           <label
             className="w-[100px] h-[100px] flex flex-col justify-center items-center cursor-pointer"
             htmlFor="writeImgInput"
@@ -182,7 +185,7 @@ function Write() {
             ))}
           </div>
         </div>
-        <div className="w-full flex justify-between mt-8 items-center">
+        <div className="w-full flex justify-between my-8 items-center">
           <h3 className="font-bold text-xl">사용감</h3>
           <select className="p-3 outline-none" ref={selectUsageRef} placeholder="사용감" required>
             <option value="있음">있음</option>
