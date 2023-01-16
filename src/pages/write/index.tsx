@@ -139,7 +139,7 @@ function Write() {
           required
         />
         <textarea
-          className="w-full mt-4 p-4 outline-none border-b text-lg resize-none"
+          className="w-full mt-4 p-4 outline-none border-b text-xl resize-none"
           placeholder="내용"
           ref={inputContentRef}
           required
@@ -159,6 +159,7 @@ function Write() {
           multiple
           accept=".jpg, .jpeg, .png"
         />
+        <h3 className="mt-6 font-bold text-xl w-full text-left">사진</h3>
         <div className="mt-4 flex justify-start w-full">
           <label
             className="w-[100px] h-[100px] flex flex-col justify-center items-center cursor-pointer"
